@@ -34,6 +34,7 @@ async function run() {
     // Connect to the "brandDB" database and access its "brandCollection" collection
     const database = client.db("hotelBookingDB");
     const roomCollection = database.collection("room");
+    const bookingCollection = database.collection("booking");
     
     app.post("/room", async(req, res)=> {
       const newAddRoom = req.body;
@@ -64,6 +65,14 @@ async function run() {
       const result = await roomCollection.findOne(query);
       res.send(result);
       console.log("bookingfrom", result)
+    })
+
+    app.post("/booking", async(req, res)=> {
+      const booking = req.body;
+      console.log(booking);
+      const result = await bookingCollection.insertOne(booking);
+      res.send(result);
+      console.log("room booking", result);
     })
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
